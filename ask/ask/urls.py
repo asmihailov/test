@@ -20,7 +20,8 @@ admin.autodiscover()
 #from qa.urls import url
 
 urlpatterns = [
-	url(r'^/(?P<slug>/w+)/$',views.all_questions, name='all-questions'),
+	url(r'^/$', views.all_questions, name='all'),
+	url(r'^$', views.all_questions, name='all-questions'),
 	url(r'^popular/$', views.popular, name='popular'),
 	url(r'^question/(?P<question_id>\d+)/$', views.one_question, name='question'),
 #	url(r'^$', include('qa.urls')),

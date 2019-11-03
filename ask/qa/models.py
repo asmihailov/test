@@ -17,10 +17,13 @@ class Question(models.Model):
 	likes = models.ManyToManyField(User, related_name="qlikes")
 	def __unicode__(self):
 		return self.title
+	def get_url(self):
+		return reverse('questions', kwargs={'id': self.id})
+
 class Answer(models.Model):
 	text = models.TextField(max_length=100)
 	added_at = models.DateTimeField(auto_now_add=True)
-	question = models.ForeignKey(Question, blank=True, related_name="Aquestion", on_delete=models.PROTECT)
+	question = models.ForeignKey(Question, blank=True, related_name="answer_set", on_delete=models.PROTECT)
 	author = models.ForeignKey(User, related_name="Aauthor", on_delete=models.PROTECT)
 	def __unicode__(self):
 		return self.text

@@ -18,7 +18,7 @@ def all_questions(request):
 	page = paginator.page(page)
 	return render(request, 'qa/all.html', {
 	'questions': page.object_list,
-	'title': question.title,
+	'title': questions.title,
 	'paginator': paginator,
 	'page': page})
 
@@ -31,7 +31,7 @@ def popular(request):
 	page = paginator.page(page)
 	return render(request, 'qa/all.html', {
 	'questions': page.object_list,
-        'title': question.title,
+        'title': questions.title,
         'paginator': paginator,
         'page': page})
 
