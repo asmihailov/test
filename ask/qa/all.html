@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> 
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"> 
+<h1>Questions list </h1>
+	{% for question in questions %}
+		<ul>
+			<a href="question/{{ question.id }}">
+			{{ question.title }}
+      			</a>
+		</ul>
+    	{% endfor %} 
+	
+<nav><ul class="pagination">
+	{% for p in paginator.page_range %}
+		{% if p == page.number %}
+			<li class="active">
+		{% else %}
+			<li>
+		{% endif %}
+			<a href="{{ paginator.baseurl }}{{ p }}">
+			{{ p }}</a>
+		</li>
+	{% endfor %} 
+</ul></nav>
