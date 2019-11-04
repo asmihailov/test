@@ -17,7 +17,7 @@ def all_questions(request):
 	paginator = Paginator(questions, limit)
 	paginator.baseurl = '/?page='
 	page = paginator.page(page)
-	return render(request, 'templates/qa/all.html', {
+	return render(request, 'all.html', {
 	'questions': page.object_list,
 	'title': page.object_list,
 	'paginator': paginator,
@@ -30,16 +30,16 @@ def popular(request):
 	paginator = Paginator(questions, limit)
 	paginator.baseurl = '/popular/?page='
 	page = paginator.page(page)
-	return render(request, 'templates/qa/all.html', {
+	return render(request, 'all.html', {
 	'questions': page.object_list,
-        'title': questions.title,
+        #'title': questions.title,
         'paginator': paginator,
         'page': page})
 
 def one_question(request, question_id):
 	questions = get_object_or_404(Question, id=question_id)
 	answers = Answer.objects.filter(question=questions)
-	return render(request, 'qa/question.html', {
+	return render(request, 'question.html', {
 	'questions': questions,
         'title': questions.title,
         'text': questions.text,
