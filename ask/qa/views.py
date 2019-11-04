@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from qa.models import Question 
+from qa.models import Question
 from qa.models import Answer
 from django.core.paginator import Paginator
+
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
@@ -16,9 +17,9 @@ def all_questions(request):
 	paginator = Paginator(questions, limit)
 	paginator.baseurl = '/?page='
 	page = paginator.page(page)
-	return render(request, 'qa/all.html', {
+	return render(request, 'templates/qa/all.html', {
 	'questions': page.object_list,
-	'title': questions.title,
+	'title': page.object_list,
 	'paginator': paginator,
 	'page': page})
 
@@ -29,7 +30,7 @@ def popular(request):
 	paginator = Paginator(questions, limit)
 	paginator.baseurl = '/popular/?page='
 	page = paginator.page(page)
-	return render(request, 'qa/all.html', {
+	return render(request, 'templates/qa/all.html', {
 	'questions': page.object_list,
         'title': questions.title,
         'paginator': paginator,
