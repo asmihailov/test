@@ -2,23 +2,19 @@ from django import forms
 from qa.models import Question, Answer
 
 class AskForm(forms.Form):
-	title = CharField(max-length=100)
-	text = CharField(widget=forms.TextArea)
+	title = forms.CharField(max_length=100)
+	text = forms.CharField(widget=forms.Textarea)
+	hidden = forms.CharField(widget=forms.HiddenInput())
 
-	def clean(self):
-		text = self.cleaned_data['text']
-		if not text:
-			raise forms.ValidationError('question text is not correct')
-		return text
-	
 	def save(self):
-		question = Question(**self.cleaned_data)
-		question.save()
-		return question
+		questions = Question(**self.cleaned_data)
+		questions.author_id = 1
+		questions.save()
+		return questions
 
 class AnswerForm(forms.Form):
-	text = CharField(widget=forms.TextArea)
-	question = IntegerField()
+	text = forms.CharField(widget=forms.Textarea)
+	question = forms.IntegerField()
 
 
 	def save(self):
