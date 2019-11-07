@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from qa.models import Question
 from qa.models import Answer
 from django.core.paginator import Paginator
-
+from django.views.decorators.csrf import csrf_exempt
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
@@ -36,11 +36,47 @@ def popular(request):
         'paginator': paginator,
         'page': page})
 
+@csrf_exempt
 def one_question(request, question_id):
+	if request.method == "POST":
+		return question_add(request)
+	form = AnswerForm(initial={'questions': question_id})
 	questions = get_object_or_404(Question, id=question_id)
 	answers = Answer.objects.filter(question=questions)
 	return render(request, 'question.html', {
 	'questions': questions,
         'title': questions.title,
         'text': questions.text,
-	'answers': answers.all()[:]})
+	'answers': answers.all()[:],
+	'form': form,})
+
+@csrf_exempt
+def question_add(request):
+	if request.method == "POST":
+		form = AskForm(request.POST)
+		if form.is_valid():
+			post = form.save()
+			url = "question"
+			adds = str(post.id)
+			return HttpResponseRedirect(url + adds)
+	
+	else:
+		form = AskForm()
+	return render(request, "question_add.html", {'form': form})
+
+@csrf_exempt
+def answer_add(request):
+	if request.method == "POST":
+		form = AnswerForm(initial={'question': question_id})
+		return render(request, "answer_add.html", {
+		'question': question,
+		'title': question.title,
+		'text': question.text,
+		'answers': answers.all()[:],
+		'form': form,
+		})
+		post = form.save
+	url = "question"
+	adds = str(post.id)
+	return HttpResponseRedirect(url + adds)
+

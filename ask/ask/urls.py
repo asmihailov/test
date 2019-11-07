@@ -22,6 +22,7 @@ admin.autodiscover()
 urlpatterns = [
 #	url(r'^/$', views.all_questions, name='all'),
 	url(r'^$', views.all_questions, name='all_questions'),
+	url(r'^ask/$', views.question_add, name='question_add'),
 	url(r'^popular/$', views.popular, name='popular'),
 	url(r'^question/(?P<question_id>\d+)/$', views.one_question, name='question'),
 #	url(r'^$', include('qa.urls')),

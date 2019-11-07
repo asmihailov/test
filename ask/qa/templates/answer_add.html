@@ -1,0 +1,21 @@
+<h1>Question details</h1> <!DOCTYPE HTML> <html> 
+<head><title>QUESTION</title></head> <body> <h1>Question title: {{ 
+question.title }}</h1> <h1>Question text: {{ question.text }}</h1> 
+<h1>Answers:</h1> <ul>
+    {% for answer in answers.all %} <li>{{ answer.text }}</li>
+    {% endfor %} </ul> {% for e in form.non_field_errors %}
+    <div class="alert alert-danger">{{ e }}</div> {% endfor %}
+ <form class="form-horizontal" method="post" action="/answer/">
+    {% csrf_token %}
+    <fieldset>
+        {% for field in form %}
+            <div class="control-group {% if field.errors %}has-error{% endif %}">
+                <label class="control-label">{{ field.label }}</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+        {% endfor %}
+    </fieldset>
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">SAVE</button>
+    </div>
+</form>
