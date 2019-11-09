@@ -56,14 +56,14 @@ def one_question(request, question_id):
 def question_add(request):
 	if request.method == "POST":
 		form = AskForm(request.POST)
-		if form.is_valid():
+		if not form.is_valid():
+#			return HttpResponse("Bad request")
 			post = form.save()
 			url = "/question/"
 			adds = str(post.id)
 			return HttpResponseRedirect(url + adds)
-
 	else:
-		form = AskForm()
+		form = AskForm(request.POST)
 	return render(request, "question_add.html", {'form': form})
 
 #@csrf_exempt
