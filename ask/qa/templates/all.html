@@ -1,5 +1,6 @@
 <!DOCTYPE HTML> 
 <html>
+{% csrf_token %}
 <h1>Questions list </h1>
 	{% for question in questions %}
 		<ul>

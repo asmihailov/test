@@ -1,6 +1,7 @@
 <h1>Question details</h1>
 <!DOCTYPE HTML> 
 <html>
+{% csrf_token %}
 <head><title>QUESTION</title></head> 
 <body> <h1>Question title: {{ questions.title }}</h1> 
 <h1>Question text: {{ questions.text }}</h1> 

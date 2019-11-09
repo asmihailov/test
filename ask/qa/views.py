@@ -40,7 +40,8 @@ def popular(request):
 @csrf_exempt
 def one_question(request, question_id):
 	if request.method == "POST":
-		return question_add(request)
+		return HttpResponse('200')
+#		return question_add(request)
 	form = AnswerForm(initial={'question': question_id})
 	questions = get_object_or_404(Question, id=question_id)
 	answers = Answer.objects.filter(question=questions)
@@ -58,6 +59,11 @@ def question_add(request):
 		form = AskForm(request.POST)
 		if not form.is_valid():
 #			return HttpResponse("Bad request")
+			post = form.save()
+			url = "/question/"
+			adds = str(post.id)
+			return HttpResponseRedirect(url + adds)
+		else:
 			post = form.save()
 			url = "/question/"
 			adds = str(post.id)
