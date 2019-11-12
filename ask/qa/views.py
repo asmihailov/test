@@ -72,19 +72,29 @@ def question_add(request):
 		form = AskForm(request.POST)
 	return render(request, "question_add.html", {'form': form})
 
-#@csrf_exempt
-#def answer_add(request):
-#	if request.method == "POST":
-#		form = AnswerForm(initial={'question': question_id})
-#		return render(request, "answer_add.html", {
-#		'question': question,
-#		'title': question.title,
-#		'text': question.text,
-#		'answers': answers.all()[:],
-#		'form': form,
-#		})
-#		post = form.save
-#	url = "question"
-#	adds = str(post.id)
-#	return HttpResponseRedirect(url + adds)
+def user_signup(request):
+	if request.method == 'POST':
+		form = SignupForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			if user is not None:
+				login(request, user)
+				return HttpResponseRedirect(reverse('index'))
+	form = SignupForm()
+	return render(request, 'qa/signup.html', {'form': form})
 
+def user_login(request):
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			if user is not None:
+				login(request, user)
+				return HttpResponseRedirect(reverse('index'))
+	form = LoginForm()
+	return render(request, 'qa/login.html', {'form': form})
+
+def user_logout(request):
+	if request.user is not None:
+		logout(request)
+		return HttpResponseRedirect(reverse('index'))
