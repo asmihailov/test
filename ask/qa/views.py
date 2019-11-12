@@ -3,9 +3,11 @@ from django.views.decorators.http import require_GET
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from qa.models import Question
 from qa.models import Answer
-from django.core.paginator import Paginator
-from .forms import AskForm, AnswerForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import AskForm, AnswerForm, SignupForm, LoginForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
@@ -59,6 +61,7 @@ def question_add(request):
 		form = AskForm(request.POST)
 		if not form.is_valid():
 #			return HttpResponse("Bad request")
+			form._user = request.user
 			post = form.save()
 			url = "/question/"
 			adds = str(post.id)
@@ -79,9 +82,9 @@ def user_signup(request):
 			user = form.save()
 			if user is not None:
 				login(request, user)
-				return HttpResponseRedirect(reverse('index'))
+				return HttpResponseRedirect('/')
 	form = SignupForm()
-	return render(request, 'qa/signup.html', {'form': form})
+	return render(request, 'signup.html', {'form': form})
 
 def user_login(request):
 	if request.method == 'POST':
@@ -90,11 +93,11 @@ def user_login(request):
 			user = form.save()
 			if user is not None:
 				login(request, user)
-				return HttpResponseRedirect(reverse('index'))
+				return HttpResponseRedirect('/')
 	form = LoginForm()
-	return render(request, 'qa/login.html', {'form': form})
+	return render(request, 'login.html', {'form': form})
 
 def user_logout(request):
 	if request.user is not None:
 		logout(request)
-		return HttpResponseRedirect(reverse('index'))
+		return HttpResponseRedirect('/')

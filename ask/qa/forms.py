@@ -1,5 +1,12 @@
 from django import forms
 from qa.models import Question, Answer
+from datetime import datetime
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User 
+from django.shortcuts import get_object_or_404
+from django.forms import ModelForm
+
+
 
 class AskForm(forms.Form):
 	title = forms.CharField(max_length=100)
@@ -53,13 +60,13 @@ class SignupForm(forms.Form):
 	
 	def clean_password(self):
 		password = self.cleaned_data['password']
-                if password.strip() == '':
-                	raise forms.ValidationError('Password is empty', code='validation error')
-                return password
+		if password.strip()=='' :
+			raise forms.ValidationError('Password is empty', code='validation error')
+		return password
 
 	def clean_email(self):
 		email = self.cleaned_data['email']
-		if email.strip() == '':
+		if email.strip()=='' :
 			raise forms.ValidationError('Email is empty', code='validation error')
 		return email
 	
@@ -75,13 +82,13 @@ class LoginForm(forms.Form):
         
 	def clean_username(self):
 		username = self.cleaned_data['username']
-		if username.strip() == '':
+		if username.strip()=='' :
 			raise forms.ValidationError('Username is empty', code='validation error')
 		return username
                                                                 
 	def clean_password(self):
 		password = self.cleaned_data['password']
-		if password.strip() == '':
+		if password.strip()=='' :
 			raise forms.ValidationError('Password is empty', code='validation error')
 		return password
 
